@@ -1,7 +1,24 @@
 package model;
 
+import java.util.Arrays;
+import java.util.Comparator;
+
+import comparator.ProductComparator;
+import comparator.HierarchicalComparator;
+
 public class Product implements Comparable<Product> {
 
+	private static final Comparator<Product> comparator;
+
+	static {
+		comparator = new HierarchicalComparator<Product>(
+				Arrays.<Comparator<Product>> asList(
+						ProductComparator.NAME,
+						ProductComparator.PRICE.desc(),
+						ProductComparator.VOLUME,
+						ProductComparator.CATEGORY_NAME));
+	}
+	
 	private String name;
 	private Integer volume;
 	private Double price;
@@ -87,18 +104,11 @@ public class Product implements Comparable<Product> {
 
 	@Override
 	public String toString() {
-		return "Product [name=" + name + "]";
+		return "name:" + name + "\t\tvolume:" + volume + "\n";
 	}
 
 	@Override
 	public int compareTo(Product o) {
-		
-		if (this.price > o.price)
-			return 1;
-		
-		if (this.price < o.price)
-			return -1;
-		
-		return 0;
+		return comparator.compare(this, o);
 	}	
 }

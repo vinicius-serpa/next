@@ -7,25 +7,25 @@ import model.Product;
 
 public enum ProductComparator implements Comparator<Product> {
 
-	byPrice() {
+	PRICE() {
 		public int compare(Product p, Product o) {
 			return p.getPrice().compareTo(o.getPrice());
 		}
 	},
 	
-	byName() {
+	NAME() {
 		public int compare(Product p, Product o) {
 			return p.getName().compareTo(o.getName());
 		}
 	},
 	
-	byVolume() {
+	VOLUME() {
 		public int compare(Product p, Product o) {
 			return p.getVolume().compareTo(o.getVolume());
 		}
 	},
 	
-	byCategoryName() {
+	CATEGORY_NAME() {
 		public int compare(Product p, Product o) {
 			return p.getCategory().getName().compareTo(o.getCategory().getName());
 		}

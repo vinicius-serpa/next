@@ -81,11 +81,11 @@ public class Whiteboard extends JPanel implements MouseMotionListener,
 		final Shape currentShape = shapeFactory.getShape();
 		if (currentShape != null) {
 			shapes.add(currentShape);
-			try {
+			/*try {
 				whiteboardListener.addShape(currentShape);
 			} catch (IOException e) {
 				e.printStackTrace();
-			}
+			}*/
 		}
 	}
 

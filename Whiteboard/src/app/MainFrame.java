@@ -14,6 +14,7 @@ import javax.swing.JFrame;
 
 import model.factory.CircleFactory;
 import model.factory.LineFactory;
+import model.factory.PolygonFactory;
 import model.factory.RectangleFactory;
 import model.factory.ShapeFactory;
 import model.factory.StrokeFactory;
@@ -36,7 +37,7 @@ public class MainFrame extends JFrame {
 				new LineFactory(initialColor), new RectangleFactory(
 						initialColor), new CircleFactory(initialColor),
 				new StrokeFactory(initialColor), new TriangleFactory(
-						initialColor));
+						initialColor), new PolygonFactory(initialColor));
 
 		// Painel onde as shapes serão desenhadas
 		final Whiteboard whiteboard = new Whiteboard(shapeFactories.get(0),

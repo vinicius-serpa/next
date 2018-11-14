@@ -25,6 +25,7 @@ import br.com.cab.model.Passenger;
 import br.com.cab.model.PassengerImpl;
 import br.com.cab.model.Position2D;
 import br.com.cab.model.SimulatorMap2D;
+import br.com.cab.service.RouterService;
 import br.com.cab.simulator.Simulator;
 import br.com.cab.simulator.listener.JPanelSimulatorListener;
 
@@ -83,12 +84,24 @@ public class Application extends JFrame {
 			simulator.add(cab);
 		}
 
+		boolean createMyPassenger = true;
+		int count = 0;
+		
 		while (true) {
 			Thread.sleep(INTERVAL_BETWEEN_PASSENGER_ADD);
 			final Position2D origin = Position2D.randomPosition(simulatorMap2D, random, MAX_X, MAX_Y);
 			final Position2D destination = randomIncrement(simulatorMap2D, random, origin);
 			final Passenger passenger = new PassengerImpl(positionCalculator, origin, destination);
 			simulator.add(passenger);
+			
+			count++;
+			if (createMyPassenger && count == 9) {
+				RouterService routerService = new RouterService(positionCalculator);
+				Passenger myPassenger = routerService.passengerRequest("ROBOT01", 200, 120, 230, 200);
+				simulator.add(myPassenger);
+				createMyPassenger = false;
+			}
+			
 		}
 	}
 

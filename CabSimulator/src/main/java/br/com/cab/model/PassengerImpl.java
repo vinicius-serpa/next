@@ -23,6 +23,13 @@ public final class PassengerImpl extends AbstractDiscoverable implements Passeng
 		identifier = Integer.toString(count++);
 		this.destination = Objects.requireNonNull(destination);
 	}
+	
+	public PassengerImpl(String id, final PositionCalculator positionCalculator, final Position initialPosition,
+			final Position destination) {
+		super(positionCalculator, initialPosition);
+		identifier = id;
+		this.destination = Objects.requireNonNull(destination);
+	}
 
 	@Override
 	public String getIdentifier() {

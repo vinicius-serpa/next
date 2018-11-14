@@ -96,9 +96,8 @@ public class Application extends JFrame {
 			
 			count++;
 			if (createMyPassenger && count == 9) {
-				RouterService routerService = new RouterService(positionCalculator);
-				Passenger myPassenger = routerService.passengerRequest("ROBOT01", 200, 120, 230, 200);
-				simulator.add(myPassenger);
+				RouterService routerService = new RouterService(simulator, positionCalculator);				
+				routerService.passengerRequest("ROBOT01", 200, 120, 230, 200);
 				createMyPassenger = false;
 			}
 			

@@ -71,7 +71,7 @@ public final class PassengerImpl extends AbstractDiscoverable implements Passeng
 
 	@Override
 	public String toString() {
-		return "position: " + getPosition() + "\ndestination: " + getDestination() + "\nstatus: " + status;
+		return getIdentifier() + "\nposition: " + getPosition() + "\ndestination: " + getDestination() + "\nstatus: " + status;
 	}
 
 }

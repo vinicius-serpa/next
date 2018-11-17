@@ -99,8 +99,29 @@ public class Application extends JFrame {
 		int count = 0;
 		
 		// RabbitMQ Listener
+		// rabbitConsumer(positionCalculator, simulator);
+		
+		while (true) {
+			Thread.sleep(INTERVAL_BETWEEN_PASSENGER_ADD);
+			final Position2D origin = Position2D.randomPosition(simulatorMap2D, random, MAX_X, MAX_Y);
+			final Position2D destination = randomIncrement(simulatorMap2D, random, origin);
+			final Passenger passenger = new PassengerImpl(positionCalculator, origin, destination);
+			simulator.add(passenger);
+			
+			count++;
+			
+			if (createMyPassenger && count == 9) {												
+				RouterService routerService = new RouterService(simulator, positionCalculator);				
+				routerService.passengerRequest(new PassengerRequestTO("ROBOT01", 120, 100, 220, 200));						
+				createMyPassenger = false;
+			}
+			
+		}
+	}
 
-/*		String QUEUE_NAME = "routing";
+	private static void rabbitConsumer(final PositionCalculator positionCalculator, final Simulator simulator) {
+		
+		String QUEUE_NAME = "routing";
 		
 		ConnectionFactory factory = new ConnectionFactory();
 		factory.setHost("localhost");
@@ -131,24 +152,6 @@ public class Application extends JFrame {
 			e.printStackTrace();
 		} catch (TimeoutException e) {
 			e.printStackTrace();
-		}*/
-
-		
-		while (true) {
-			Thread.sleep(INTERVAL_BETWEEN_PASSENGER_ADD);
-			final Position2D origin = Position2D.randomPosition(simulatorMap2D, random, MAX_X, MAX_Y);
-			final Position2D destination = randomIncrement(simulatorMap2D, random, origin);
-			final Passenger passenger = new PassengerImpl(positionCalculator, origin, destination);
-			simulator.add(passenger);
-			
-			count++;
-			
-			if (createMyPassenger && count == 9) {												
-				RouterService routerService = new RouterService(simulator, positionCalculator);				
-				routerService.passengerRequest(new PassengerRequestTO("ROBOT01", 120, 100, 220, 200));						
-				createMyPassenger = false;
-			}
-			
 		}
 	}
 

@@ -1,6 +1,9 @@
 package br.com.cab.app;
 
 import com.rabbitmq.client.ConnectionFactory;
+
+import br.com.cab.to.PassengerRequestTO;
+
 import com.rabbitmq.client.Connection;
 
 import java.util.concurrent.TimeoutException;
@@ -19,9 +22,12 @@ public class Sender {
 		Channel channel = connection.createChannel();
 		
 		channel.queueDeclare(QUEUE_NAME, false, false, false, null);
-		String message = "Hello World!";
+		
+		PassengerRequestTO message = new PassengerRequestTO("ROBOT01", 200, 120, 230, 200);
+		
+		
 		channel.basicPublish("", QUEUE_NAME, null, message.getBytes());
-		System.out.println(" [x] Sent '" + message + "'");
+		System.out.println(" [x] Sent '" + PassengerRequestTO.fromBytes(message.getBytes()).getId() + "'");
 		
 		channel.close();
 		connection.close();

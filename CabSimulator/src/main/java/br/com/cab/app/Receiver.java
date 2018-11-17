@@ -1,6 +1,9 @@
 package br.com.cab.app;
 
 import com.rabbitmq.client.*;
+
+import br.com.cab.to.PassengerRequestTO;
+
 import java.io.IOException;
 
 public class Receiver {
@@ -21,8 +24,8 @@ public class Receiver {
       public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body)
           throws IOException {
         
-    	  String message = new String(body, "UTF-8");
-    	  System.out.println(" [x] Received '" + message + "'");
+    	  PassengerRequestTO message = PassengerRequestTO.fromBytes(body);
+    	  System.out.println(" [x] Received '" + message.getId() + "'");
       }
     };
     

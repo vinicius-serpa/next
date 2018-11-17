@@ -7,7 +7,7 @@ import java.util.concurrent.TimeoutException;
 
 import com.rabbitmq.client.Channel;
 
-public class Send {
+public class Sender {
 
 	private final static String QUEUE_NAME = "routing";
 	

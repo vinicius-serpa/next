@@ -1,11 +1,21 @@
 package br.com.cab.app;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.TimeoutException;
 
 import javax.swing.JFrame;
+
+import com.rabbitmq.client.AMQP;
+import com.rabbitmq.client.Channel;
+import com.rabbitmq.client.Connection;
+import com.rabbitmq.client.ConnectionFactory;
+import com.rabbitmq.client.Consumer;
+import com.rabbitmq.client.DefaultConsumer;
+import com.rabbitmq.client.Envelope;
 
 import br.com.cab.engine.calculators.ChainedPositionCalculator;
 import br.com.cab.engine.calculators.PathFinderPositionCalculator;
@@ -28,6 +38,7 @@ import br.com.cab.model.SimulatorMap2D;
 import br.com.cab.service.RouterService;
 import br.com.cab.simulator.Simulator;
 import br.com.cab.simulator.listener.JPanelSimulatorListener;
+import br.com.cab.to.PassengerRequestTO;
 
 public class Application extends JFrame {
 
@@ -87,6 +98,42 @@ public class Application extends JFrame {
 		boolean createMyPassenger = true;
 		int count = 0;
 		
+		// RabbitMQ Listener
+
+/*		String QUEUE_NAME = "routing";
+		
+		ConnectionFactory factory = new ConnectionFactory();
+		factory.setHost("localhost");
+		Connection connection;
+		try {
+			connection = factory.newConnection();
+			Channel channel = connection.createChannel();
+
+			channel.queueDeclare(QUEUE_NAME, false, false, false, null);
+			System.out.println(" [*] Waiting for messages. To exit press CTRL+C");
+
+			Consumer consumer = new DefaultConsumer(channel) {
+				@Override
+				public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties,
+						byte[] body) throws IOException {
+
+					PassengerRequestTO message = PassengerRequestTO.fromBytes(body);
+					System.out.println(" [x] Received '" + message.getId() + "'");
+					
+					RouterService routerService = new RouterService(simulator, positionCalculator);				
+					routerService.passengerRequest(message);							
+				}
+			};
+
+			channel.basicConsume(QUEUE_NAME, true, consumer);
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (TimeoutException e) {
+			e.printStackTrace();
+		}*/
+
+		
 		while (true) {
 			Thread.sleep(INTERVAL_BETWEEN_PASSENGER_ADD);
 			final Position2D origin = Position2D.randomPosition(simulatorMap2D, random, MAX_X, MAX_Y);
@@ -95,9 +142,10 @@ public class Application extends JFrame {
 			simulator.add(passenger);
 			
 			count++;
-			if (createMyPassenger && count == 9) {
+			
+			if (createMyPassenger && count == 9) {												
 				RouterService routerService = new RouterService(simulator, positionCalculator);				
-				routerService.passengerRequest("ROBOT01", 200, 120, 230, 200);
+				routerService.passengerRequest(new PassengerRequestTO("ROBOT01", 120, 100, 220, 200));						
 				createMyPassenger = false;
 			}
 			

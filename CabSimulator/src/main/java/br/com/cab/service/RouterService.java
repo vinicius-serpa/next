@@ -6,6 +6,7 @@ import br.com.cab.model.PassengerImpl;
 import br.com.cab.model.Position;
 import br.com.cab.model.Position2D;
 import br.com.cab.simulator.Simulator;
+import br.com.cab.to.PassengerRequestTO;
 
 public class RouterService {
 	
@@ -17,11 +18,11 @@ public class RouterService {
 		this.positionCalculator = positionCalculator;
 	}
 	
-	public void passengerRequest(String id, int originX, int originY, int destinationX, int destinationY) {
+	public void passengerRequest(PassengerRequestTO request) {
 		
-		final Position origin = Position2D.getInstance(originX, originY);
-		final Position destination = Position2D.getInstance(destinationX, destinationY);			
-		final Passenger passenger = new PassengerImpl(id, positionCalculator, origin, destination);
+		final Position origin = Position2D.getInstance(request.getOriginX(), request.getOriginY());
+		final Position destination = Position2D.getInstance(request.getDestinationX(), request.getDestinationY());			
+		final Passenger passenger = new PassengerImpl(request.getId(), positionCalculator, origin, destination);
 		
 		map.add(passenger);
 	}

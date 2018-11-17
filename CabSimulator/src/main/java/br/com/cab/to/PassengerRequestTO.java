@@ -31,6 +31,22 @@ public class PassengerRequestTO implements Serializable {
 		return id;
 	}
 	
+	public int getOriginX() {
+		return originX;
+	}
+
+	public int getOriginY() {
+		return originY;
+	}
+
+	public int getDestinationX() {
+		return destinationX;
+	}
+
+	public int getDestinationY() {
+		return destinationY;
+	}
+	
 	public byte[] getBytes() {
 		byte[] bytes;
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();

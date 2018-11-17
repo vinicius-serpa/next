@@ -1,5 +1,7 @@
 package br.com.cab.service;
 
+import java.util.Objects;
+
 import br.com.cab.engine.calculators.PositionCalculator;
 import br.com.cab.model.Passenger;
 import br.com.cab.model.PassengerImpl;
@@ -14,8 +16,8 @@ public class RouterService {
 	private PositionCalculator positionCalculator; 
 	
 	public RouterService(Simulator simulator, PositionCalculator positionCalculator) {
-		this.map = simulator;
-		this.positionCalculator = positionCalculator;
+		this.map = Objects.requireNonNull(simulator);
+		this.positionCalculator = Objects.requireNonNull(positionCalculator);
 	}
 	
 	public void passengerRequest(PassengerRequestTO request) {

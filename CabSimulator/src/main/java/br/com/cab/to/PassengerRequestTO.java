@@ -13,14 +13,30 @@ public class PassengerRequestTO implements Serializable {
 
 	private static final long serialVersionUID = -7501781515031980151L;
 	
+	private static final int MAX_X = 300;
+	private static final int MAX_Y = 300;
+	
 	private String id;
 	private int originX;
 	private int originY;
 	private int destinationX;
 	private int destinationY;
 
-	public PassengerRequestTO(String id, int originX, int originY, int destinationX, int destinationY) {
+	public PassengerRequestTO(String id, int originX, int originY, int destinationX, int destinationY) throws Exception {
 		this.id = id;
+		
+		if (originX < 0 || originX > MAX_X)
+			throw new Exception("wrong X origin");
+		
+		if (originY < 0 || originY > MAX_Y)
+			throw new Exception("wrong Y origin");
+		
+		if (destinationX < 0 || destinationX > MAX_X)
+			throw new Exception("wrong X destination");
+		
+		if (destinationY < 0 || destinationY > MAX_Y)
+			throw new Exception("wrong Y destination");
+		
 		this.originX = originX;
 		this.originY = originY;
 		this.destinationX = destinationX;

@@ -3,21 +3,20 @@ package br.com.cab.to;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import br.com.cab.utils.MapProperties;
 
 public class PassengerRequestTO implements Serializable {
 
 	private static final long serialVersionUID = -7501781515031980151L;
 	
-	private String resourceName = "map.properties";
-	private int maxX = 300;
-	private int maxY = 300;
+	private int maxX = 0;
+	private int maxY = 0;
 	
 	private String id;
 	private int originX;
@@ -25,8 +24,11 @@ public class PassengerRequestTO implements Serializable {
 	private int destinationX;
 	private int destinationY;
 
-	public PassengerRequestTO(String id, int originX, int originY, int destinationX, int destinationY) throws Exception {
+	public PassengerRequestTO(String id, int originX, int originY, int destinationX, int destinationY, MapProperties mapProp) throws Exception {
 		this.id = id;
+		
+		this.maxX = mapProp.getMaxX();
+		this.maxY = mapProp.getMaxY();
 		
 		if (originX < 0 || originX > maxX)
 			throw new Exception("wrong X origin");
@@ -43,17 +45,7 @@ public class PassengerRequestTO implements Serializable {
 		this.originX = originX;
 		this.originY = originY;
 		this.destinationX = destinationX;
-		this.destinationY = destinationY;
-						
-		Properties props = new Properties();
-		try(InputStream resourceStream = getClass().getClassLoader().getResourceAsStream(resourceName)) {
-		    props.load(resourceStream);
-		    
-		    this.maxX = Integer.parseInt(props.getProperty("max_x"));
-		    this.maxY = Integer.parseInt(props.getProperty("max_y"));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		this.destinationY = destinationY;							
 			
 	}
 

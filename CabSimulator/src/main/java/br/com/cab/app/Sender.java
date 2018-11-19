@@ -3,6 +3,7 @@ package br.com.cab.app;
 import com.rabbitmq.client.ConnectionFactory;
 
 import br.com.cab.to.PassengerRequestTO;
+import br.com.cab.utils.MapProperties;
 
 import com.rabbitmq.client.Connection;
 
@@ -26,7 +27,7 @@ public class Sender {
 		PassengerRequestTO message = null;
 		
 		try {
-			message = new PassengerRequestTO("ROBOT01", 80, 20, 280, 200);
+			message = new PassengerRequestTO("ROBOT01", 80, 20, 280, 200, new MapProperties());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

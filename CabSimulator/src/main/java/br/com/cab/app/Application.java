@@ -1,9 +1,11 @@
 package br.com.cab.app;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Properties;
 import java.util.Random;
 import java.util.concurrent.TimeoutException;
 
@@ -39,13 +41,14 @@ import br.com.cab.service.RouterService;
 import br.com.cab.simulator.Simulator;
 import br.com.cab.simulator.listener.JPanelSimulatorListener;
 import br.com.cab.to.PassengerRequestTO;
+import br.com.cab.utils.MapProperties;
 
 public class Application extends JFrame {
 
 	private static final long serialVersionUID = -5680964038598774462L;
 
-	private static final int MAX_X = 300;
-	private static final int MAX_Y = 300;
+	private static int MAX_X = 0;
+	private static int MAX_Y = 0;
 
 	private static final int NUMBER_OF_CABS = 10;
 	private static final int INTERVAL_BETWEEN_PASSENGER_ADD = 1000;
@@ -54,16 +57,21 @@ public class Application extends JFrame {
 	private static final int MAX_BLOCKED_SIZE_LINE = 500;
 
 	public Application(final JPanelSimulatorListener listener) {
-		super("Simulator");
+		super("Simulator");			
 		setSize(MAX_X + 50, MAX_Y + 50);
 		add(listener);
 		setResizable(false);
 		setVisible(true);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);				
 	}
 
 	public static void main(final String[] args) throws InterruptedException {
 
+		MapProperties map = new MapProperties();
+		
+		MAX_X = map.getMaxX();
+		MAX_Y = map.getMaxY();		
+		
 		final Random random = new Random(100);
 
 		final SimulatorMap2D simulatorMap2D = new SimulatorMap2D(Position2D.ORIGIN,

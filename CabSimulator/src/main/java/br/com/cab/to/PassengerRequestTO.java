@@ -3,9 +3,11 @@ package br.com.cab.to;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -13,8 +15,9 @@ public class PassengerRequestTO implements Serializable {
 
 	private static final long serialVersionUID = -7501781515031980151L;
 	
-	private static final int MAX_X = 300;
-	private static final int MAX_Y = 300;
+	private String resourceName = "map.properties";
+	private int maxX = 300;
+	private int maxY = 300;
 	
 	private String id;
 	private int originX;
@@ -25,22 +28,33 @@ public class PassengerRequestTO implements Serializable {
 	public PassengerRequestTO(String id, int originX, int originY, int destinationX, int destinationY) throws Exception {
 		this.id = id;
 		
-		if (originX < 0 || originX > MAX_X)
+		if (originX < 0 || originX > maxX)
 			throw new Exception("wrong X origin");
 		
-		if (originY < 0 || originY > MAX_Y)
+		if (originY < 0 || originY > maxY)
 			throw new Exception("wrong Y origin");
 		
-		if (destinationX < 0 || destinationX > MAX_X)
+		if (destinationX < 0 || destinationX > maxX)
 			throw new Exception("wrong X destination");
 		
-		if (destinationY < 0 || destinationY > MAX_Y)
+		if (destinationY < 0 || destinationY > maxY)
 			throw new Exception("wrong Y destination");
 		
 		this.originX = originX;
 		this.originY = originY;
 		this.destinationX = destinationX;
 		this.destinationY = destinationY;
+						
+		Properties props = new Properties();
+		try(InputStream resourceStream = getClass().getClassLoader().getResourceAsStream(resourceName)) {
+		    props.load(resourceStream);
+		    
+		    this.maxX = Integer.parseInt(props.getProperty("max_x"));
+		    this.maxY = Integer.parseInt(props.getProperty("max_y"));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+			
 	}
 
 	public String getId() {

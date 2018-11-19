@@ -23,7 +23,7 @@ public class Sender {
 		
 		channel.queueDeclare(QUEUE_NAME, false, false, false, null);
 		
-		PassengerRequestTO message = new PassengerRequestTO("ROBOT01", 200, 120, 230, 200);
+		PassengerRequestTO message = new PassengerRequestTO("ROBOT01", 80, 20, 280, 200);
 		
 		
 		channel.basicPublish("", QUEUE_NAME, null, message.getBytes());

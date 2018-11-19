@@ -95,27 +95,31 @@ public class Application extends JFrame {
 			simulator.add(cab);
 		}
 
-		boolean createMyPassenger = true;
-		int count = 0;
+		// boolean createMyPassenger = true;
+		// int count = 0;
 		
 		// RabbitMQ Listener
-		// rabbitConsumer(positionCalculator, simulator);
+		rabbitConsumer(positionCalculator, simulator);
 		
 		while (true) {
+			
 			Thread.sleep(INTERVAL_BETWEEN_PASSENGER_ADD);
+			
+			/*  			
+			// block to fill map with random passengers
 			final Position2D origin = Position2D.randomPosition(simulatorMap2D, random, MAX_X, MAX_Y);
 			final Position2D destination = randomIncrement(simulatorMap2D, random, origin);
 			final Passenger passenger = new PassengerImpl(positionCalculator, origin, destination);
 			simulator.add(passenger);
 			
-			count++;
-			
+			// block to test passenger request using RouterService
+			count++;			
 			if (createMyPassenger && count == 9) {												
 				RouterService routerService = new RouterService(simulator, positionCalculator);				
 				routerService.passengerRequest(new PassengerRequestTO("ROBOT01", 120, 100, 220, 200));						
 				createMyPassenger = false;
 			}
-			
+			*/			
 		}
 	}
 
